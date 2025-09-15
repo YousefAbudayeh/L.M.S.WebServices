@@ -1,3 +1,15 @@
 <Solution>
-  <Project Path="L.M.S.WebServices/L.M.S.WebServices.csproj" />
+  <Folder Name="/Application/">
+    <Project Path="L.M.S.Application/L.M.S.Application.csproj" Id="ad40e5a2-27ec-4d73-93c3-53372f2c8477" />
+  </Folder>
+  <Folder Name="/Core/">
+    <Project Path="L.M.S.Application.Common/L.M.S.Application.Common.csproj" Id="80f88717-9218-442b-891e-78020adb8230" />
+  </Folder>
+  <Folder Name="/Domain/">
+    <Project Path="L.M.S.Application.Domain/L.M.S.Application.Domain.csproj" Id="5f5cb6ba-ccf5-4b00-829a-a498409b790d" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="L.M.S.Application.Persistence/L.M.S.Application.Persistence.csproj" Id="f00ac82b-c6eb-478e-8328-248d4b7c4dc8" />
+  </Folder>
+  <Project Path="L.M.S.Application.WebApi/L.M.S.Application.WebApi.csproj" Id="5c2301f6-6a95-47cc-a817-5a055f250b4e" />
 </Solution>

@@ -1,0 +1,6 @@
+@L.M.S.Application.WebApi_HostAddress = http://localhost:5195
+
+GET {{L.M.S.Application.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
