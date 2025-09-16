@@ -27,7 +27,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpGet("{uid}")]
-    [ProducesResponseType(typeof(Response<string>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Response<BooksViewModel>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(Guid uid)
     {
         var results = await this.booksService.Get(uid);

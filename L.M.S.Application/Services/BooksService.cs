@@ -5,6 +5,7 @@ using L.M.S.Application.Common.ViewModels;
 using L.M.S.Application.Domain.Entities;
 using L.M.S.Application.Domain.Persistence;
 using L.M.S.Application.Interfaces;
+using L.M.S.Application.Persistence.Sql;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -14,20 +15,44 @@ public class BooksService : IBooksService
 {
     private readonly IBooksRepository booksRepository;
     private readonly ICategoriesRepository categoriesRepository;
-    public BooksService(IBooksRepository booksRepository, ICategoriesRepository categoriesRepository)
+    private readonly BooksAdoRepository booksAdoRepository;
+    public BooksService(IBooksRepository booksRepository, 
+        ICategoriesRepository categoriesRepository, 
+        BooksAdoRepository booksAdoRepository)
     {
         this.booksRepository = booksRepository;
         this.categoriesRepository = categoriesRepository;
+        this.booksAdoRepository = booksAdoRepository;
     }
 
-    public Task<Response<ICollection<BooksViewModel>>> GetAll()
+    public async Task<Response<ICollection<BooksViewModel>>> GetAll()
     {
-        throw new NotImplementedException();
+        var books = await this.booksAdoRepository.GetAllWithCategoriesAsync();
+
+        return Response<ICollection<BooksViewModel>>.Succeed(books);
     }
 
-    public Task<Response<BooksViewModel>> Get(Guid uid)
+    public async Task<Response<BooksViewModel>> Get(Guid uid)
     {
-        throw new NotImplementedException();
+        var book = await this.booksRepository
+            .GetQueryable()
+            .Include(b => b.Categories)
+            .FirstOrDefaultAsync(b => b.Uid == uid);
+
+        if (book is null)
+        {
+            return Response<BooksViewModel>.Fail("Book not found", HttpStatusCode.NotFound);
+        }
+
+        var vm = ViewModelFactory.CreateBook(
+            book.Uid,
+            book.Title,
+            book.Description,
+            book.Author,
+            book.Categories.Select(c => c.Name).ToList()
+        );
+
+        return Response<BooksViewModel>.Succeed(vm);
     }
 
     public async Task<Response<BookResponse>> Create(BookCreateRequest request)

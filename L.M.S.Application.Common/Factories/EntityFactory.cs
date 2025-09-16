@@ -18,4 +18,15 @@ public static class EntityFactory
             Categories = categories
         };
     }
+
+    public static Category Create(CategoryCreateRequest request)
+    {
+        return new()
+        {
+            Id = Generator.CreateV7Guid(),
+            Uid = Generator.CreateV7Guid(),
+            Name = request.Name,
+            Books = new List<Book>()
+        };
+    }
 }

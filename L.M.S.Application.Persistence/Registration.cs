@@ -13,6 +13,7 @@ public static class Registration
     {
         services.AddScoped<IBooksRepository, BooksRepository>();
         services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+        services.AddScoped<BooksAdoRepository>();
 
         var settings = configuration.GetSection("Persistence").Get<PersistenceSettings>();
         services.AddDbContext<LMSSqlContext>(options => options.UseSqlServer(settings.DefaultConnection));
