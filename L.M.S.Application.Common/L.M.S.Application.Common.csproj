@@ -9,5 +9,9 @@
   <ItemGroup>
     <ProjectReference Include="..\L.M.S.Application.Domain\L.M.S.Application.Domain.csproj" />
   </ItemGroup>
-
+	
+	<ItemGroup>
+		<PackageReference Include="UUIDNext" Version="1.0.2" />
+	</ItemGroup>
+	
 </Project>

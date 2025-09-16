@@ -16,31 +16,6 @@ public class Response<T> : ResponseBase
         };
     }
 
-    public static Response<T> Fail(HttpStatusCode statusCode)
-    {
-        return new Response<T>
-        {
-            Success = false,
-            Message = default(string),
-            StatusCode = (int)statusCode
-        };
-    }
-
-    public static Response<T> Failed(T data)
-    {
-        return Succeed(data, default(string));
-    }
-
-    public static Response<T> Unauthorized(string? message = null)
-    {
-        return new Response<T>
-        {
-            Success = false,
-            Message = message ?? "Unauthorized",
-            StatusCode = (int)HttpStatusCode.Unauthorized
-        };
-    }
-
     public static Response<T> InternalServerError(string? message = null)
     {
         return new Response<T>

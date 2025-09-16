@@ -2,5 +2,5 @@
 
 public class CategoriesResponse
 {
-
+    public Guid Uid { get; set; }
 }

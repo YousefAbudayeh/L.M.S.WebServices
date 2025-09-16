@@ -1,0 +1,49 @@
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+CREATE TABLE [Books] (
+    [Id] uniqueidentifier NOT NULL,
+    [Uid] uniqueidentifier NOT NULL,
+    [Title] nvarchar(max) NOT NULL,
+    [Description] nvarchar(max) NOT NULL,
+    [Author] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_Books] PRIMARY KEY ([Id])
+);
+GO
+
+CREATE TABLE [Categories] (
+    [Id] uniqueidentifier NOT NULL,
+    [Uid] uniqueidentifier NOT NULL,
+    [Name] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_Categories] PRIMARY KEY ([Id])
+);
+GO
+
+CREATE TABLE [BookCategory] (
+    [BooksId] uniqueidentifier NOT NULL,
+    [CategoriesId] uniqueidentifier NOT NULL,
+    CONSTRAINT [PK_BookCategory] PRIMARY KEY ([BooksId], [CategoriesId]),
+    CONSTRAINT [FK_BookCategory_Books_BooksId] FOREIGN KEY ([BooksId]) REFERENCES [Books] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_BookCategory_Categories_CategoriesId] FOREIGN KEY ([CategoriesId]) REFERENCES [Categories] ([Id]) ON DELETE CASCADE
+);
+GO
+
+CREATE INDEX [IX_BookCategory_CategoriesId] ON [BookCategory] ([CategoriesId]);
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20250916123816_Db_Creation', N'8.0.20');
+GO
+
+COMMIT;
+GO

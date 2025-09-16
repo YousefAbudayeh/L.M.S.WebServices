@@ -6,7 +6,7 @@ public class Category
 
     public Guid Uid { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string Name { get; set; }
 
     public ICollection<Book> Books { get; set; }
 }
