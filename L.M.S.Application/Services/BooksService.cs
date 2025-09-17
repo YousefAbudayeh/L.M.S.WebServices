@@ -37,6 +37,7 @@ public class BooksService : IBooksService
     {
         var book = await this.booksRepository
             .GetQueryable()
+            .Include(b => b.BookCategories)
             .FirstOrDefaultAsync(b => b.Uid == uid);
 
         if (book is null)

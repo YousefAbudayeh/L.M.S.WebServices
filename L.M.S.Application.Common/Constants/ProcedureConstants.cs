@@ -2,5 +2,5 @@
 
 public class ProcedureConstants
 {
-    public const string GetAllBooksWithCategories = "sp_GetAllBooksWithCategories";
+    public const string GetAllBooksWithCategories = "GetAllBooksWithCategories";
 }
