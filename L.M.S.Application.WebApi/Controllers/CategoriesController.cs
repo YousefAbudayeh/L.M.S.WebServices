@@ -35,7 +35,7 @@ public class CategoriesController : ControllerBase
         return this.HttpContext.ToJsonResult(results);
     }
 
-    [HttpPost]
+    [HttpPut]
     [ProducesResponseType(typeof(Response<CategoriesResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Update(CategoryUpdateRequest request)
     {
@@ -44,7 +44,7 @@ public class CategoriesController : ControllerBase
         return this.HttpContext.ToJsonResult(results);
     }
 
-    [HttpDelete("{uid}")]
+    [HttpDelete("{uid}")] 
     [ProducesResponseType(typeof(Response<string>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Delete(Guid uid)
     {

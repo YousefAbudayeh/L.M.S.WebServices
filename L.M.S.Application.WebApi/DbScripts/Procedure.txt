@@ -1,4 +1,4 @@
-CREATE PROCEDURE GetAllBooksWithCategories
+CREATE PROCEDURE dbo.GetAllBooksWithCategories
 AS
 BEGIN
     SELECT 
@@ -8,6 +8,7 @@ BEGIN
         b.Author,
         c.Name AS CategoryName
     FROM Books b
-    LEFT JOIN BookCategory bc ON b.Id = bc.BooksId
-    LEFT JOIN Categories c ON bc.CategoriesId = c.Id
+    LEFT JOIN BookCategories bc ON b.Id = bc.BookId
+    LEFT JOIN Categories c ON bc.CategoryId = c.Id;
 END
+GO

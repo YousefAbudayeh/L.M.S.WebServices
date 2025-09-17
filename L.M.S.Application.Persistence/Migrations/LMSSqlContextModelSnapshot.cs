@@ -22,21 +22,6 @@ namespace L.M.S.Application.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BookCategory", b =>
-                {
-                    b.Property<Guid>("BooksId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CategoriesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("BooksId", "CategoriesId");
-
-                    b.HasIndex("CategoriesId");
-
-                    b.ToTable("BookCategory");
-                });
-
             modelBuilder.Entity("L.M.S.Application.Domain.Entities.Book", b =>
                 {
                     b.Property<Guid>("Id")
@@ -63,6 +48,21 @@ namespace L.M.S.Application.Persistence.Migrations
                     b.ToTable("Books");
                 });
 
+            modelBuilder.Entity("L.M.S.Application.Domain.Entities.BookCategory", b =>
+                {
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BookId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("BookCategories");
+                });
+
             modelBuilder.Entity("L.M.S.Application.Domain.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -81,19 +81,29 @@ namespace L.M.S.Application.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("BookCategory", b =>
+            modelBuilder.Entity("L.M.S.Application.Domain.Entities.BookCategory", b =>
                 {
                     b.HasOne("L.M.S.Application.Domain.Entities.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
+                        .WithMany("BookCategories")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("L.M.S.Application.Domain.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
+                        .WithMany("BookCategories")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("L.M.S.Application.Domain.Entities.Book", b =>
+                {
+                    b.Navigation("BookCategories");
+                });
+
+            modelBuilder.Entity("L.M.S.Application.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("BookCategories");
                 });
 #pragma warning restore 612, 618
         }

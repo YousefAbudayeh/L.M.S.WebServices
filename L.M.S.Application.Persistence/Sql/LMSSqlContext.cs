@@ -11,11 +11,11 @@ public class LMSSqlContext : DbContext
 
     public DbSet<Book> Books { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<BookCategory> BookCategories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Book>()
-           .HasMany(b => b.Categories)
-           .WithMany(c => c.Books);
+        modelBuilder.Entity<BookCategory>()
+            .HasKey(bc => new { bc.BookId, bc.CategoryId });
     }
 }

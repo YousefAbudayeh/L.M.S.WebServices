@@ -8,15 +8,28 @@ public static class EntityFactory
 {
     public static Book Create(BookCreateRequest request, ICollection<Category> categories)
     {
-        return new()
+        var book = new Book
         {
             Id = Generator.CreateV7Guid(),
             Uid = Generator.CreateV7Guid(),
             Title = request.Title,
             Description = request.Description,
             Author = request.Author,
-            Categories = categories
+            BookCategories = new List<BookCategory>()
         };
+
+        book.BookCategories = CreateBookCategories(book.Id, categories);
+
+        return book;
+    }
+
+    public static ICollection<BookCategory> CreateBookCategories(Guid bookId, ICollection<Category> categories)
+    {
+        return categories.Select(c => new BookCategory
+        {
+            BookId = bookId,
+            CategoryId = c.Id
+        }).ToList();
     }
 
     public static Category Create(CategoryCreateRequest request)
@@ -26,7 +39,7 @@ public static class EntityFactory
             Id = Generator.CreateV7Guid(),
             Uid = Generator.CreateV7Guid(),
             Name = request.Name,
-            Books = new List<Book>()
+            BookCategories = new List<BookCategory>()
         };
     }
 }

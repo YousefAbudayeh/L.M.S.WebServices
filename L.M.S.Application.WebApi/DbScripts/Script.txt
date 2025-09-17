@@ -29,20 +29,20 @@ CREATE TABLE [Categories] (
 );
 GO
 
-CREATE TABLE [BookCategory] (
-    [BooksId] uniqueidentifier NOT NULL,
-    [CategoriesId] uniqueidentifier NOT NULL,
-    CONSTRAINT [PK_BookCategory] PRIMARY KEY ([BooksId], [CategoriesId]),
-    CONSTRAINT [FK_BookCategory_Books_BooksId] FOREIGN KEY ([BooksId]) REFERENCES [Books] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_BookCategory_Categories_CategoriesId] FOREIGN KEY ([CategoriesId]) REFERENCES [Categories] ([Id]) ON DELETE CASCADE
+CREATE TABLE [BookCategories] (
+    [BookId] uniqueidentifier NOT NULL,
+    [CategoryId] uniqueidentifier NOT NULL,
+    CONSTRAINT [PK_BookCategories] PRIMARY KEY ([BookId], [CategoryId]),
+    CONSTRAINT [FK_BookCategories_Books_BookId] FOREIGN KEY ([BookId]) REFERENCES [Books] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_BookCategories_Categories_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [Categories] ([Id]) ON DELETE CASCADE
 );
 GO
 
-CREATE INDEX [IX_BookCategory_CategoriesId] ON [BookCategory] ([CategoriesId]);
+CREATE INDEX [IX_BookCategories_CategoryId] ON [BookCategories] ([CategoryId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20250916123816_Db_Creation', N'8.0.20');
+VALUES (N'20250917105149_Db_Creation', N'8.0.20');
 GO
 
 COMMIT;

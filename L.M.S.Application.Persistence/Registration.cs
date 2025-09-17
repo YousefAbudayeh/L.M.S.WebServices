@@ -11,11 +11,13 @@ public static class Registration
 {
     public static void AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
+        var settings = configuration.GetSection("Persistence").Get<PersistenceSettings>();
+        services.AddSingleton(settings);
+
         services.AddScoped<IBooksRepository, BooksRepository>();
         services.AddScoped<ICategoriesRepository, CategoriesRepository>();
         services.AddScoped<BooksAdoRepository>();
 
-        var settings = configuration.GetSection("Persistence").Get<PersistenceSettings>();
         services.AddDbContext<LMSSqlContext>(options => options.UseSqlServer(settings.DefaultConnection));
     }
 }

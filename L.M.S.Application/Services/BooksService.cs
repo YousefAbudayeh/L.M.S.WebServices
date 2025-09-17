@@ -7,6 +7,7 @@ using L.M.S.Application.Domain.Persistence;
 using L.M.S.Application.Interfaces;
 using L.M.S.Application.Persistence.Sql;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Net;
 
 namespace L.M.S.Application.Services;
@@ -36,7 +37,6 @@ public class BooksService : IBooksService
     {
         var book = await this.booksRepository
             .GetQueryable()
-            .Include(b => b.Categories)
             .FirstOrDefaultAsync(b => b.Uid == uid);
 
         if (book is null)
@@ -44,12 +44,22 @@ public class BooksService : IBooksService
             return Response<BooksViewModel>.Fail("Book not found", HttpStatusCode.NotFound);
         }
 
+        var categoryIds = book.BookCategories
+            .Select(bc => bc.CategoryId)
+            .ToList();
+
+        var categoryNames = await this.categoriesRepository
+            .GetQueryable()
+            .Where(c => categoryIds.Contains(c.Id))
+            .Select(c => c.Name)
+            .ToListAsync();
+
         var vm = ViewModelFactory.CreateBook(
             book.Uid,
             book.Title,
             book.Description,
             book.Author,
-            book.Categories.Select(c => c.Name).ToList()
+            categoryNames
         );
 
         return Response<BooksViewModel>.Succeed(vm);
@@ -87,7 +97,7 @@ public class BooksService : IBooksService
     {
         var book = this.booksRepository
             .GetQueryable()
-            .Include(b => b.Categories)
+            .Include(b => b.BookCategories)
             .FirstOrDefault(b => b.Uid == request.Uid);
 
         if (book is null)
@@ -126,7 +136,16 @@ public class BooksService : IBooksService
                 .Where(c => request.CategoryUids.Contains(c.Uid))
                 .ToList();
 
-            book.Categories = categories;
+            book.BookCategories.Clear();
+
+            foreach (var category in categories)
+            {
+                book.BookCategories.Add(new BookCategory
+                {
+                    BookId = book.Id,
+                    CategoryId = category.Id
+                });
+            }
         }
 
         await this.booksRepository.Update(book);

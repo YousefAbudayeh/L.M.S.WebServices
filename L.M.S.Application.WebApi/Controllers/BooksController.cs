@@ -44,7 +44,7 @@ public class BooksController : ControllerBase
         return this.HttpContext.ToJsonResult(results);
     }
 
-    [HttpPost]
+    [HttpPut]
     [ProducesResponseType(typeof(Response<BookResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Update(BookUpdateRequest request)
     {

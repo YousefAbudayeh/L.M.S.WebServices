@@ -40,40 +40,40 @@ namespace L.M.S.Application.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookCategory",
+                name: "BookCategories",
                 columns: table => new
                 {
-                    BooksId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoriesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    BookId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookCategory", x => new { x.BooksId, x.CategoriesId });
+                    table.PrimaryKey("PK_BookCategories", x => new { x.BookId, x.CategoryId });
                     table.ForeignKey(
-                        name: "FK_BookCategory_Books_BooksId",
-                        column: x => x.BooksId,
+                        name: "FK_BookCategories_Books_BookId",
+                        column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookCategory_Categories_CategoriesId",
-                        column: x => x.CategoriesId,
+                        name: "FK_BookCategories_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookCategory_CategoriesId",
-                table: "BookCategory",
-                column: "CategoriesId");
+                name: "IX_BookCategories_CategoryId",
+                table: "BookCategories",
+                column: "CategoryId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BookCategory");
+                name: "BookCategories");
 
             migrationBuilder.DropTable(
                 name: "Books");
