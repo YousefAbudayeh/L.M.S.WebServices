@@ -7,9 +7,24 @@ public static class HttpContextExtensions
 {
     public static JsonResult ToJsonResult<T>(this HttpContext httpContext, Response<T> response)
     {
-        return new JsonResult(response.Success ? response.Data : response)
+        if (response.Success)
         {
-            StatusCode = response.StatusCode ?? (response.Success ? 200 : 400)
+            return new JsonResult(new
+            {
+                data = response.Data,
+                message = response.Message
+            })
+            {
+                StatusCode = response.StatusCode ?? 200
+            };
+        }
+
+        return new JsonResult(new
+        {
+            message = response.Message
+        })
+        {
+            StatusCode = response.StatusCode ?? 400
         };
     }
 }
