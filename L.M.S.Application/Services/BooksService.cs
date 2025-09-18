@@ -17,8 +17,8 @@ public class BooksService : IBooksService
     private readonly IBooksRepository booksRepository;
     private readonly ICategoriesRepository categoriesRepository;
     private readonly BooksAdoRepository booksAdoRepository;
-    public BooksService(IBooksRepository booksRepository, 
-        ICategoriesRepository categoriesRepository, 
+    public BooksService(IBooksRepository booksRepository,
+        ICategoriesRepository categoriesRepository,
         BooksAdoRepository booksAdoRepository)
     {
         this.booksRepository = booksRepository;
@@ -49,18 +49,18 @@ public class BooksService : IBooksService
             .Select(bc => bc.CategoryId)
             .ToList();
 
-        var categoryNames = await this.categoriesRepository
+        var categories = await this.categoriesRepository
             .GetQueryable()
             .Where(c => categoryIds.Contains(c.Id))
-            .Select(c => c.Name)
+            .Select(c => new CategoriesViewModel { Uid = c.Uid, Name =  c.Name })
             .ToListAsync();
 
-        var vm = ViewModelFactory.CreateBook(
+        var vm = ViewModelFactory.CreateBookWithCategoryDetails(
             book.Uid,
             book.Title,
             book.Description,
             book.Author,
-            categoryNames
+            categories
         );
 
         return Response<BooksViewModel>.Succeed(vm);

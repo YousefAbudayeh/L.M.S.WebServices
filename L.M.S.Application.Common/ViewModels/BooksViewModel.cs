@@ -10,5 +10,7 @@ public class BooksViewModel
 
     public string Author { get; set; }
 
-    public ICollection<string> Categories { get; set; }
+    public ICollection<string>? Categories { get; set; }
+
+    public ICollection<CategoriesViewModel>? CategoryDetails { get; set; }
 }

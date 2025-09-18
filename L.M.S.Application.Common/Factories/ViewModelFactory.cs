@@ -17,6 +17,18 @@ public static class ViewModelFactory
         };
     }
 
+    public static BooksViewModel CreateBookWithCategoryDetails(Guid uid, string title, string description, string author, ICollection<CategoriesViewModel>? categories = null)
+    {
+        return new()
+        {
+            Uid = uid,
+            Title = title,
+            Description = description,
+            Author = author,
+            CategoryDetails = categories
+        };
+    }
+
     public static CategoriesViewModel Create(Category category)
     {
         return new CategoriesViewModel
