@@ -28,6 +28,22 @@ public class CategoriesService : ICategoriesService
         return Response<ICollection<CategoriesViewModel>>.Succeed(result);
     }
 
+    public async Task<Response<CategoriesViewModel>> Get(Guid uid)
+    {
+        var category = await this.categoriesRepository
+            .GetQueryable()
+            .FirstOrDefaultAsync(b => b.Uid == uid);
+
+        if (category is null)
+        {
+            return Response<CategoriesViewModel>.Fail("Category not found", HttpStatusCode.NotFound);
+        }
+
+        var vm = ViewModelFactory.Create(category);
+
+        return Response<CategoriesViewModel>.Succeed(vm);
+    }
+
     public async Task<Response<CategoriesResponse>> Create(CategoryCreateRequest request)
     {
         var existingCategory = await this.categoriesRepository

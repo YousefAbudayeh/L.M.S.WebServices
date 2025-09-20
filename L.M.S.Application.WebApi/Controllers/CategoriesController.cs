@@ -26,6 +26,15 @@ public class CategoriesController : ControllerBase
         return this.HttpContext.ToJsonResult(results);
     }
 
+    [HttpGet("{uid}")]
+    [ProducesResponseType(typeof(Response<CategoriesViewModel>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Get(Guid uid)
+    {
+        var results = await this.categoriesService.Get(uid);
+
+        return this.HttpContext.ToJsonResult(results);
+    }
+
     [HttpPost]
     [ProducesResponseType(typeof(Response<CategoriesResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create(CategoryCreateRequest request)

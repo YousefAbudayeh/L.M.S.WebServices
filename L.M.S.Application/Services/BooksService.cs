@@ -60,7 +60,7 @@ public class BooksService : IBooksService
             book.Title,
             book.Description,
             book.Author,
-            categories
+            categories.ToList()
         );
 
         return Response<BooksViewModel>.Succeed(vm);

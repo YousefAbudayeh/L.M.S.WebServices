@@ -8,6 +8,8 @@ public interface ICategoriesService
 {
     Task<Response<ICollection<CategoriesViewModel>>> GetAll();
 
+    Task<Response<CategoriesViewModel>> Get(Guid uid);
+
     Task<Response<CategoriesResponse>> Create(CategoryCreateRequest request);
 
     Task<Response<CategoriesResponse>> Update(CategoryUpdateRequest request);
