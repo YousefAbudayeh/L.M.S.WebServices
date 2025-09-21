@@ -5,19 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.SetupServices(); // your custom setup
+builder.SetupServices();
 
-// CORS policy
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAngularDev",
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:4200")
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
-        });
-});
+builder.Services.SetupCors();
 
 var app = builder.Build();
 
@@ -29,8 +19,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Must be before UseAuthorization
-app.UseCors("AllowAngularDev");
+app.UseCors(StartupExtensions.AnyOriginPolicyName);
 
 app.UseAuthorization();
 
